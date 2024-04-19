@@ -10,7 +10,6 @@ type Book {
 type User {
 username: String,
 email: String,
-password: String,
 savedBooks: [Book],
 bookCount: Int,
 },
