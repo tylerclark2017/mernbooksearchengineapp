@@ -14,7 +14,7 @@ const SignupForm = () => {
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
-  const[ login, {error, loading, data}] = useMutation(LOGIN_USER)
+  const[login, {error, loading, data}] = useMutation(LOGIN_USER)
 
   console.log("Error: ", error);
   console.log("Loading: ", loading);
