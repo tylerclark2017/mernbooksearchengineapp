@@ -1,6 +1,6 @@
 import './App.css';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/Context'
+import { setContext } from '@apollo/client/link/context'
 import { Outlet } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
@@ -19,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-// Createing the MIDDLEWARE connection instance
+// Creating the MIDDLEWARE connection instance
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
