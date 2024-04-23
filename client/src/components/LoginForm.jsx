@@ -1,8 +1,7 @@
-// see SignupForm.js for comments
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-import { loginUser } from '../utils/API';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations'; // Import the LOGIN_USER mutation
 import Auth from '../utils/auth';
 
 const LoginForm = () => {
@@ -10,11 +9,15 @@ const LoginForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
+  const [loginUserMutation] = useMutation(LOGIN_USER); // Initialize the LOGIN_USER mutation
+
+  // see SignupForm.js for comments
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  // see SignupForm.js for comments
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -26,25 +29,16 @@ const LoginForm = () => {
     }
 
     try {
-      const response = await loginUser(userFormData);
+      const { data } = await loginUserMutation({ variables: userFormData }); // Execute the LOGIN_USER mutation
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token, user } = await response.json();
-      console.log(user);
+      const { token } = data.login;
       Auth.login(token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
 
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
+    setUserFormData({ email: '', password: '' });
   };
 
   return (
@@ -65,7 +59,6 @@ const LoginForm = () => {
           />
           <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
         </Form.Group>
-
         <Form.Group className='mb-3'>
           <Form.Label htmlFor='password'>Password</Form.Label>
           <Form.Control
