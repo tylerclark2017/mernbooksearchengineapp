@@ -10,8 +10,8 @@ const typeDefs = `
 
   type User {
     _id: ID!
-    username: String
-    email: String
+    username: String!
+    email: String!
     savedBooks: [Book]
     bookCount: Int
   }
