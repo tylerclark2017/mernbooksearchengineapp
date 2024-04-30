@@ -1,7 +1,5 @@
-const { AuthenticationError } = require('../utils/auth');
-const { GraphQLError } = require('graphql');
+const { AuthenticationError, signToken } = require('../utils/auth');
 const { User } = require('../models');
-const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
@@ -11,7 +9,7 @@ const resolvers = {
         return userData;
       }
       // throw new AuthenticationError('You need to be logged in!');
-      throw new GraphQLError('You need to be logged in!');
+      throw new AuthenticationError('You need to be logged in!');
     },
   },
 
