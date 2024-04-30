@@ -1,9 +1,10 @@
-import './App.css';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context'
 import { Outlet } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
+
+import './App.css';
 
 // Construct (point to) Our NEW SINGLE GRAPHQL ENDPOINT '/graphql' with HTTTP: POST METHOD
 const httpLink = createHttpLink({
@@ -12,10 +13,12 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
-  
-  return { 
-    ...headers,
-    authorization: token ? `Bearer ${token}` : ''
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
   }
 })
 
