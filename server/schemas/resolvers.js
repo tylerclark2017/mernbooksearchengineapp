@@ -15,6 +15,7 @@ const resolvers = {
 
   Mutation: {
     login: async (parent, { email, password }) => {
+      console.log("Hit Login Server route");
       const user = await User.findOne({ email });
       if (!user) {
         throw new AuthenticationError('Incorrect credentials');
@@ -30,9 +31,12 @@ const resolvers = {
       return { token, user };
     },
 
-    addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
+    addUser: async (parent, args) => {
+      console.log("Adding User to DB");
+      const user = await User.create(args);
       const token = signToken(user);
+      console.log("User: ", user);
+      console.log("Token: ", token);
       return { token, user };
     },
 
